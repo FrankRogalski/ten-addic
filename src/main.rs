@@ -3,17 +3,14 @@ use std::time::{Duration, SystemTime};
 use num_bigint::BigUint;
 
 fn copy_start(num_str: &str, next_str: &str) -> usize {
-    for (i, (a, b)) in num_str
+    num_str
         .bytes()
         .rev()
         .zip(next_str.bytes().rev())
         .enumerate()
-    {
-        if a != b {
-            return next_str.len() - i;
-        }
-    }
-    0
+        .find(|(_, (a, b))| a != b)
+        .map(|(i, _)| next_str.len() - i)
+        .unwrap_or(0)
 }
 
 fn main() {
