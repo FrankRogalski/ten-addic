@@ -1,6 +1,7 @@
 use std::time::{Duration, SystemTime};
 
 use num_bigint::BigUint;
+use num_traits::Pow;
 
 fn copy_start(num_str: &str, next_str: &str) -> usize {
     num_str
@@ -19,8 +20,9 @@ fn main() {
     let mut last = SystemTime::now();
     let mut next_str;
     loop {
-        let next = num.pow(2);
-        next_str = next.to_str_radix(10);
+        num = Pow::pow(num, 2u8);
+
+        next_str = num.to_str_radix(10);
 
         let elapsed = last.elapsed().unwrap() > Duration::from_secs(1);
         if elapsed {
@@ -31,7 +33,6 @@ fn main() {
         let index = copy_start(&num_str, &next_str);
         if index == 0 {
             num_str = next_str;
-            num = next;
         } else {
             num_str.clear();
             num_str.push_str(&next_str[index..]);
