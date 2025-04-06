@@ -17,9 +17,10 @@ fn main() {
     let mut num = BigUint::from(5u8);
     let mut num_str = num.to_str_radix(10);
     let mut last = SystemTime::now();
+    let mut next_str;
     loop {
         let next = num.pow(2);
-        let next_str = next.to_str_radix(10);
+        next_str = next.to_str_radix(10);
 
         let elapsed = last.elapsed().unwrap() > Duration::from_secs(1);
         if elapsed {
@@ -32,7 +33,8 @@ fn main() {
             num_str = next_str;
             num = next;
         } else {
-            num_str = next_str[index..].to_owned();
+            num_str.clear();
+            num_str.push_str(&next_str[index..]);
             num = num_str.parse().unwrap();
         }
 
